@@ -5,8 +5,6 @@ using UnityEngine;
 public class Token : MonoBehaviour
 {
     public Square CurrentSquare;
-    public int PowerModifier;
-    public int OxygenModifier;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +15,7 @@ public class Token : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         
     }
 

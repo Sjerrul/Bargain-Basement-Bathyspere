@@ -7,6 +7,9 @@ public class Square : MonoBehaviour
     public Square NextSquare;
     public Square PreviousSquare;
 
+    public int PowerModifier;
+    public int OxygenModifier;
+    
     // Start is called before the first frame update
     void Start()
     {
