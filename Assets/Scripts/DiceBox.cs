@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,36 +10,30 @@ public class DiceBox : MonoBehaviour
 
     public GameObject UiDicePrefab;
 
-    public GameObject[] UiDice;
+    List<GameObject> dice;
 
-    public int NumberOfDice;
-
-    public void RollDice()
+    void Start()
     {
-        Debug.Log("Rolling");
+        dice = new List<GameObject>();
+    }
 
-        // Destroy Any exisiting UiDice
-        for (int i = 0; i < UiDice.Length; i++)
+    public void ClearDice()
+    {
+        for (int i = 0; i < dice.Count; i++)
         {
-            GameObject.Destroy(UiDice[i]);
+            GameObject.Destroy(dice[i]);
         }
+    }
 
-        UiDice = new GameObject[this.NumberOfDice];
+    public void AddDie(int value, Action<Die> onClickAction)
+    {
+        GameObject die = new GameObject($"Die: {value}", typeof(Image), typeof(Die), typeof(UnityEngine.UI.Button));
+        die.transform.SetParent(this.transform);
+        
+        die.GetComponent<Image>().sprite = Faces[value - 1];
+        die.GetComponent<Die>().Value = value;
+        die.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => onClickAction(die.GetComponent<Die>()));
 
-        for (int i = 0; i < NumberOfDice; i++)
-        {
-            UiDice[i] = Instantiate(UiDicePrefab, Vector3.zero, Quaternion.identity, this.transform);
-
-            Die die =  UiDice[i].GetComponent<Die>();
-            if (die == null)
-            {
-                throw new MissingComponentException("Missing Die script on DiePrefab");
-            }
-
-            int roll = Random.Range(1, 7);
-            die.Value = roll;
-
-            UiDice[i].GetComponent<Image>().sprite = Faces[roll - 1];
-        }
+        dice.Add(die);
     }
 }

@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Square : MonoBehaviour
 {
+    public event Action<Square> MouseClickEvent; 
+
     public Square NextSquare;
     public Square PreviousSquare;
 
@@ -24,6 +27,9 @@ public class Square : MonoBehaviour
 
     void OnMouseUp()
     {
-        Debug.Log("Click square");
+        if (MouseClickEvent != null)
+        {
+            MouseClickEvent(this);
+        }
     }
 }

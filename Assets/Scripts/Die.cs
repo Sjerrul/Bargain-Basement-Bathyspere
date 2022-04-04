@@ -1,13 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Die : MonoBehaviour
 {
+    public event Action<Die> Click;
+
     public int Value;
 
-    public void OnSelect()
+    void OnSelect()
     {
-        Debug.Log("Selected DIe: " + this.Value);
+        Debug.Log("Die " + Value);
+        Click(this);
     }
 }

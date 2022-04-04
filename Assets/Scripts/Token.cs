@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Token : MonoBehaviour
 {
+    public event Action MouseClickEvent;
+
     public Square CurrentSquare;
 
     // Start is called before the first frame update
@@ -22,8 +25,12 @@ public class Token : MonoBehaviour
     
     void OnMouseUp()
     {
-        Debug.Log("Click Token");
-        this.CurrentSquare = this.CurrentSquare.NextSquare;
-        this.transform.position = this.CurrentSquare.transform.position;
+        if (MouseClickEvent != null)
+        {
+            MouseClickEvent();
+        }
+        
+        // this.CurrentSquare = this.CurrentSquare.NextSquare;
+        // this.transform.position = this.CurrentSquare.transform.position;
     }
 }
