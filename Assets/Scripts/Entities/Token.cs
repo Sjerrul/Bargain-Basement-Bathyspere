@@ -12,15 +12,15 @@ public class Token : MonoBehaviour
 
     void Update()
     {
-        if (CurrentSquare != null)
+        if (CurrentSquare == null)
         {
-            // Smoothly move the camera towards that target position
+            return;
+        }
+            
+        if (Vector3.Distance(this.transform.position, this.CurrentSquare.transform.position) > 0.01f)
+        {
             Debug.Log("Token :: Moving");
             transform.position = Vector3.SmoothDamp(this.transform.position, this.CurrentSquare.transform.position, ref this.velocity, this.smoothTime);
-            if (Vector3.Distance(this.transform.position, this.CurrentSquare.transform.position) < 0.01f)
-            {
-                CurrentSquare = null;
-            }       
         }
     }   
 

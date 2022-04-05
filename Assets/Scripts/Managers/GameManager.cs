@@ -19,6 +19,8 @@ public class GameManager : ManagerSingletonBase<GameManager>
         MouseManager.Instance.DieClicked += OnDieClick;
 
         this.rules = GetComponent<Rules>();
+
+        this.token.SetCurrentSquare(this.board.StartingSquare);
     }
 
     // Update is called once per frame
@@ -49,5 +51,6 @@ public class GameManager : ManagerSingletonBase<GameManager>
             targetSquare = targetSquare.NextSquare;
         }
 
+        targetSquare.transform.Translate(0, 0.5f, 0);
     }
 }
