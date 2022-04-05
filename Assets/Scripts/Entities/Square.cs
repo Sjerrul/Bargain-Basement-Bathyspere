@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class Square : MonoBehaviour
@@ -15,7 +16,18 @@ public class Square : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        StringBuilder text = new StringBuilder();
+        if (PowerModifier != 0)
+        {
+            text.AppendLine($"P-{this.PowerModifier}");
+        }
+
+        if (OxygenModifier != 0)
+        {
+            text.AppendLine($"O-{this.OxygenModifier}");
+        }
+
+        this.GetComponentInChildren<TextMesh>().text = text.ToString();
     }
 
     // Update is called once per frame

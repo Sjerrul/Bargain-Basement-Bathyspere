@@ -44,6 +44,15 @@ public class GameManager : ManagerSingletonBase<GameManager>
         if (square.IsMarked)
         {
             this.board.UnmarkAllSquares();
+            var dice = InterfaceManager.Instance.GetDice();
+            foreach (var d in dice)
+            {
+                if (d.IsSelected)
+                {
+                    GameObject.Destroy(d.gameObject);
+                }
+            }
+
 
             int positionOfSquare = this.board.GetPositionOfSquare(square);
             if (positionOfSquare > this.tokenPosition)
@@ -70,6 +79,14 @@ public class GameManager : ManagerSingletonBase<GameManager>
     void OnDieClick(Die die)
     {
         Debug.Log($"Die {die.Value} clicked");
+
+        var dice = InterfaceManager.Instance.GetDice();
+        foreach (var d in dice)
+        {
+            d.SetSelected(false);
+        }
+
+        die.SetSelected(true);
         Square tokenSquare = this.board.GetSquareAtPosition(this.tokenPosition);
 
         this.board.UnmarkAllSquares();

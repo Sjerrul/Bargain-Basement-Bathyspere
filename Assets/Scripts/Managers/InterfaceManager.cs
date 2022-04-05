@@ -23,9 +23,15 @@ public class InterfaceManager : ManagerSingletonBase<InterfaceManager>
 
     }
 
+    public Die[] GetDice()
+    {
+        return dicePanel.GetComponentsInChildren<Die>();
+    }
+
     public void RollDice()
     {
-        foreach (var die in dicePanel.GetComponentsInChildren<Die>())
+        var currentAvailableDice = dicePanel.GetComponentsInChildren<Die>();
+        foreach (var die in currentAvailableDice)
         {
             GameObject.Destroy(die.gameObject);
         }

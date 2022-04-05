@@ -2409,6 +2409,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1979837274}
     - target: {fileID: 8253140304372344770, guid: 4887ff30824fbb44ab7961e24caf5be1, type: 3}
+      propertyPath: PowerModifier
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8253140304372344770, guid: 4887ff30824fbb44ab7961e24caf5be1, type: 3}
       propertyPath: PreviousSquare
       value: 
       objectReference: {fileID: 1762159738}
@@ -2717,6 +2721,14 @@ PrefabInstance:
       propertyPath: NextSquare
       value: 
       objectReference: {fileID: 1457713126}
+    - target: {fileID: 8253140304372344770, guid: 4887ff30824fbb44ab7961e24caf5be1, type: 3}
+      propertyPath: PowerModifier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8253140304372344770, guid: 4887ff30824fbb44ab7961e24caf5be1, type: 3}
+      propertyPath: OxygenModifier
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8253140304372344770, guid: 4887ff30824fbb44ab7961e24caf5be1, type: 3}
       propertyPath: PreviousSquare
       value: 

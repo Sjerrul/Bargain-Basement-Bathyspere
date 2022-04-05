@@ -2,16 +2,28 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Die : MonoBehaviour
 {
-    public event Action<Die> Click;
-
     public int Value;
 
-    void OnSelect()
+    public bool IsSelected {get; private set; }
+
+    void Update()
     {
-        Debug.Log("Die " + Value);
-        Click(this);
+        if (IsSelected)
+        {
+            this.GetComponent<Image>().color = Color.red;
+        }
+        else
+        {
+            this.GetComponent<Image>().color = Color.white;
+        }
+    }
+
+    public void SetSelected(bool selected)
+    {
+        this.IsSelected = selected;
     }
 }
