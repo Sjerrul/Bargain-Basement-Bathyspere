@@ -6,13 +6,12 @@ using UnityEngine.UI;
 
 public class Board : MonoBehaviour
 {
-    public Square StartingSquare {get; private set; }
-
+    private Square[] squares;
+     
     // Start is called before the first frame update
     void Start()
     {
-        var squares = this.GetComponentsInChildren<Square>();
-        this.StartingSquare = squares.Single(x => x.PreviousSquare == null);
+        squares = this.GetComponentsInChildren<Square>();
     }
 
     // Update is called once per frame
@@ -20,5 +19,61 @@ public class Board : MonoBehaviour
     {
         //.DamageLabel.text = $"{this.Damage}";
         //this.StressLabel.text = $"{this.Stress}";
+    }
+
+    public Square GetSquareAtPosition(int position)
+    {
+        return this.squares[position];
+    }
+
+    public int GetPositionOfSquare(Square square)
+    {
+        for (int i = 0; i < squares.Length; i++)
+        {
+            if (squares[i] == square)
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    public void UnmarkAllSquares()
+    {
+        for (int i = 0; i < squares.Length; i++)
+        {
+            squares[i].SetMarked(false);
+        }
+    }
+
+    public Square GetSquareAfterSteps(Square square, int steps)
+    {
+        Square result = square;
+        for (int i = 0; i < steps; i++)
+        {
+            result = result.NextSquare;
+            if (result == null)
+            {
+                return null;
+            }
+        }
+
+        return result;
+    }
+
+    public Square GetSquareBeforeSteps(Square square, int steps)
+    {
+        Square result = square;
+        for (int i = 0; i < steps; i++)
+        {
+            result = result.PreviousSquare;
+            if (result == null)
+            {
+                return null;
+            }
+        }
+
+        return result;
     }
 }

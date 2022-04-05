@@ -12,6 +12,8 @@ public class GameManager : ManagerSingletonBase<GameManager>
 
     public Token token;
 
+    private int tokenPosition;
+
     void Start()
     {
         MouseManager.Instance.TokenClicked += OnTokenClick;
@@ -20,7 +22,9 @@ public class GameManager : ManagerSingletonBase<GameManager>
 
         this.rules = GetComponent<Rules>();
 
-        this.token.SetCurrentSquare(this.board.StartingSquare);
+        Square startingSquare = this.board.GetSquareAtPosition(0);
+        this.token.SetCurrentSquare(startingSquare);
+        tokenPosition = 0;
     }
 
     // Update is called once per frame
@@ -32,25 +36,54 @@ public class GameManager : ManagerSingletonBase<GameManager>
     void OnTokenClick(Token token)
     {
         Debug.Log("Token Clicked");
-        Square target = this.board.StartingSquare.NextSquare.NextSquare;
-        token.SetCurrentSquare(target);
     }
 
     void OnSquareClick(Square square)
     {
-         Debug.Log($"Square {square.name} clicked");
+        Debug.Log("Square Clicked");
+        if (square.IsMarked)
+        {
+            this.board.UnmarkAllSquares();
+
+            int positionOfSquare = this.board.GetPositionOfSquare(square);
+            if (positionOfSquare > this.tokenPosition)
+            {
+                for (int i = this.tokenPosition; i <= positionOfSquare; i++)
+                {
+                    Square nextSquare = this.board.GetSquareAtPosition(i);
+                    token.AddToPath(nextSquare);
+                }
+            }
+            else
+            {
+                for (int i = this.tokenPosition; i >= positionOfSquare; i--)
+                {
+                    Square nextSquare = this.board.GetSquareAtPosition(i);
+                    token.AddToPath(nextSquare);
+                }
+            }
+
+            this.tokenPosition = positionOfSquare;
+        }
     }
 
     void OnDieClick(Die die)
     {
         Debug.Log($"Die {die.Value} clicked");
-        Square targetSquare = this.token.CurrentSquare;
+        Square tokenSquare = this.board.GetSquareAtPosition(this.tokenPosition);
 
-        for (int i = 0; i < die.Value; i++)
+        this.board.UnmarkAllSquares();
+        Square squareAhead = this.board.GetSquareAfterSteps(tokenSquare, die.Value);
+        Square squareBehind = this.board.GetSquareBeforeSteps(tokenSquare, die.Value);
+        
+        if (squareAhead != null)
         {
-            targetSquare = targetSquare.NextSquare;
+            squareAhead.SetMarked(true);
         }
 
-        targetSquare.transform.Translate(0, 0.5f, 0);
+        if (squareBehind != null)
+        {
+            squareBehind.SetMarked(true);
+        }
     }
 }

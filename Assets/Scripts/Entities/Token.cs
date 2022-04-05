@@ -2,30 +2,61 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class Token : MonoBehaviour
 {
     public Square CurrentSquare {get; private set; }
 
-    public float smoothTime = 0.3F;
+    public float smoothTime = 0.15F;
+
+
     private Vector3 velocity = Vector3.zero;
+    private Queue<Square> path = new Queue<Square>();
 
     void Update()
     {
-        if (CurrentSquare == null)
+        if (this.CurrentSquare == null)
         {
             return;
         }
-            
-        if (Vector3.Distance(this.transform.position, this.CurrentSquare.transform.position) > 0.01f)
+
+        if (Vector3.Distance(this.transform.position, this.CurrentSquare.transform.position) < 0.01f)
         {
-            Debug.Log("Token :: Moving");
-            transform.position = Vector3.SmoothDamp(this.transform.position, this.CurrentSquare.transform.position, ref this.velocity, this.smoothTime);
+            if (path.Count <= 0)
+            {
+                return;
+            }
+
+            this.CurrentSquare = path.Dequeue();
         }
+
+        transform.position = Vector3.SmoothDamp(this.transform.position, this.CurrentSquare.transform.position, ref this.velocity, this.smoothTime);
     }   
 
     public void SetCurrentSquare(Square currentSquare)
     {
+        Debug.Log("Token :: Set to square: " + currentSquare.name);
         this.CurrentSquare = currentSquare;
+        this.transform.position = currentSquare.transform.position;
+    }
+
+    public void AddToPath(Square square)
+    {
+        this.path.Enqueue(square);
+    }
+
+    public void MoveToSquare(Square target)
+    {
+        Debug.Log("Token :: Moving to Square " + target.name);
+        Square square = this.CurrentSquare;
+        while (square != target)
+        {
+            this.path.Enqueue(square);
+            square = square.NextSquare;
+        }
+
+        this.path.Enqueue(square); // While stops when the target is found, but we need to add the target ALSO
+        Debug.Log(String.Join("-", path.Select(x => x.name)));
     }
 }
