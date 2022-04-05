@@ -6,6 +6,8 @@ using System.Linq;
 
 public class Token : MonoBehaviour
 {
+    public event Action<Square> VisitSquare;
+
     public Square CurrentSquare {get; private set; }
 
     public float smoothTime = 0.15F;
@@ -13,6 +15,8 @@ public class Token : MonoBehaviour
 
     private Vector3 velocity = Vector3.zero;
     private Queue<Square> path = new Queue<Square>();
+
+    private bool inTransit = false;
 
     void Update()
     {
@@ -23,6 +27,15 @@ public class Token : MonoBehaviour
 
         if (Vector3.Distance(this.transform.position, this.CurrentSquare.transform.position) < 0.01f)
         {
+            if (inTransit)
+            {
+                inTransit = false;
+                if (VisitSquare != null)
+                {
+                    VisitSquare(this.CurrentSquare);
+                }
+            }
+
             if (path.Count <= 0)
             {
                 return;
@@ -31,6 +44,7 @@ public class Token : MonoBehaviour
             this.CurrentSquare = path.Dequeue();
         }
 
+        inTransit = true;
         transform.position = Vector3.SmoothDamp(this.transform.position, this.CurrentSquare.transform.position, ref this.velocity, this.smoothTime);
     }   
 

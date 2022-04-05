@@ -6,20 +6,19 @@ using UnityEngine;
 
 public class Square : MonoBehaviour
 {
-    public bool IsMarked { get; private set;}
+    public bool IsSelected { get; private set;}
     public Square NextSquare;
     public Square PreviousSquare;
 
-    public int PowerModifier;
+    public int StressModifier;
     public int OxygenModifier;
     
-    // Start is called before the first frame update
     void Start()
     {
         StringBuilder text = new StringBuilder();
-        if (PowerModifier != 0)
+        if (StressModifier != 0)
         {
-            text.AppendLine($"P-{this.PowerModifier}");
+            text.AppendLine($"S-{this.StressModifier}");
         }
 
         if (OxygenModifier != 0)
@@ -30,10 +29,9 @@ public class Square : MonoBehaviour
         this.GetComponentInChildren<TextMesh>().text = text.ToString();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (IsMarked)
+        if (IsSelected)
         {
             this.transform.position = new Vector3(this.transform.position.x, 0.5f, this.transform.position.z);
         }
@@ -43,8 +41,8 @@ public class Square : MonoBehaviour
         }
     }
     
-    public void SetMarked(bool isMarked)
+    public void SetMarked(bool isSelected)
     {
-        this.IsMarked = isMarked;
+        this.IsSelected = isSelected;
     }
 }

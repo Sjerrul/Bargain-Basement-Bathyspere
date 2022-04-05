@@ -6,6 +6,11 @@ using UnityEngine.UI;
 
 public class InterfaceManager : ManagerSingletonBase<InterfaceManager>
 {
+    public Text StressLabel;
+    public Text OxygenLabel;
+
+    public Text DamageLabel;
+
     public GameObject dicePanel;
 
     public Sprite[] DieFaces;
@@ -23,6 +28,20 @@ public class InterfaceManager : ManagerSingletonBase<InterfaceManager>
 
     }
 
+    public void SetStress(int stress)
+    {
+        this.StressLabel.text = $"{stress}";
+    }
+
+    public void SetOxygen(int oxyen)
+    {
+        this.OxygenLabel.text = $"{oxyen}";
+    }
+
+    public void SetDamage(int damage)    
+    {
+        this.DamageLabel.text = $"{damage}";
+    }
     public Die[] GetDice()
     {
         return dicePanel.GetComponentsInChildren<Die>();

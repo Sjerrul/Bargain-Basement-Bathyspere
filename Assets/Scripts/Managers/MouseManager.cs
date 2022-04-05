@@ -19,50 +19,70 @@ public class MouseManager : ManagerSingletonBase<MouseManager>
     {
         if (Input.GetMouseButtonDown(0))
         {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            
-            if (Physics.Raycast(ray, out hit)) {
-                if (hit.collider.GetComponent<Token>() != null)
-                {
-                    if (TokenClicked != null)
-                    {
-                        TokenClicked(hit.collider.GetComponent<Token>());
-                        return;
-                    }
-                }
+            if (CheckUIElementClicked())
+            {
+                return;
+            }   
 
-                if (hit.collider.GetComponent<Square>() != null)
-                {
-                    if (SquareClicked != null)
-                    {
-                        SquareClicked(hit.collider.GetComponent<Square>());
-                        return;
-                    }
-                }
+            if (CheckBoardElementClicked())
+            {
+                return;
             }
+        }
+    }
 
-            if (EventSystem.current.IsPointerOverGameObject()) {          
-                PointerEventData pointerData = new PointerEventData(EventSystem.current) {
-                    pointerId = -1,
-                };
-    
-                pointerData.position = Input.mousePosition;
-    
-                List<RaycastResult> results = new List<RaycastResult>();
-                EventSystem.current.RaycastAll(pointerData, results);
-                foreach (var result in results)
+    private bool CheckUIElementClicked()
+    {
+        if (EventSystem.current.IsPointerOverGameObject()) {          
+            PointerEventData pointerData = new PointerEventData(EventSystem.current) {
+                pointerId = -1,
+            };
+
+            pointerData.position = Input.mousePosition;
+
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(pointerData, results);
+            foreach (var result in results)
+            {
+                if (result.gameObject.GetComponent<Die>() != null)
                 {
-                    if (result.gameObject.GetComponent<Die>() != null)
+                    if (DieClicked != null)
                     {
-                        if (DieClicked != null)
-                        {
-                            DieClicked(result.gameObject.GetComponent<Die>());
-                            return;
-                        }
+                        DieClicked(result.gameObject.GetComponent<Die>());
+                        return true;
                     }
                 }
             }
         }
+
+        return false;
+    }
+
+    private bool CheckBoardElementClicked()
+    {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        
+        if (Physics.Raycast(ray, out hit)) {
+            if (hit.collider.GetComponent<Token>() != null)
+            {
+                if (TokenClicked != null)
+                {
+                    TokenClicked(hit.collider.GetComponent<Token>());
+                    return true;
+                }
+            }
+
+            if (hit.collider.GetComponent<Square>() != null)
+            {
+                if (SquareClicked != null)
+                {
+                    SquareClicked(hit.collider.GetComponent<Square>());
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

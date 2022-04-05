@@ -7,18 +7,10 @@ using UnityEngine.UI;
 public class Board : MonoBehaviour
 {
     private Square[] squares;
-     
-    // Start is called before the first frame update
+
     void Start()
     {
         squares = this.GetComponentsInChildren<Square>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //.DamageLabel.text = $"{this.Damage}";
-        //this.StressLabel.text = $"{this.Stress}";
     }
 
     public Square GetSquareAtPosition(int position)

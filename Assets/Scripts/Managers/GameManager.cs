@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,23 +15,31 @@ public class GameManager : ManagerSingletonBase<GameManager>
 
     private int tokenPosition;
 
+    private int oxygen;
+    private int stress;
+    private int damage;
+
     void Start()
     {
         MouseManager.Instance.TokenClicked += OnTokenClick;
         MouseManager.Instance.SquareClicked += OnSquareClick;
         MouseManager.Instance.DieClicked += OnDieClick;
 
+        this.token.VisitSquare += OnTokenVisitsSquare;
+        
         this.rules = GetComponent<Rules>();
 
         Square startingSquare = this.board.GetSquareAtPosition(0);
         this.token.SetCurrentSquare(startingSquare);
         tokenPosition = 0;
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        this.oxygen = 10;
+        this.stress = 10;
+        this.damage = 0;
+
+        InterfaceManager.Instance.SetOxygen(this.oxygen);
+        InterfaceManager.Instance.SetStress(this.stress);
+        InterfaceManager.Instance.SetDamage(this.damage);
     }
 
     void OnTokenClick(Token token)
@@ -38,10 +47,26 @@ public class GameManager : ManagerSingletonBase<GameManager>
         Debug.Log("Token Clicked");
     }
 
+    private void OnTokenVisitsSquare(Square square)
+    {
+        Debug.Log("Square Visited: " + square.name);
+        if (square.OxygenModifier != 0)
+        {
+            this.oxygen -= square.OxygenModifier;
+            InterfaceManager.Instance.SetOxygen(this.oxygen);
+        }
+
+        if (square.StressModifier != 0)
+        {
+            this.stress -= square.StressModifier;
+            InterfaceManager.Instance.SetStress(this.stress);
+        }
+    }
+
     void OnSquareClick(Square square)
     {
         Debug.Log("Square Clicked");
-        if (square.IsMarked)
+        if (square.IsSelected)
         {
             this.board.UnmarkAllSquares();
             var dice = InterfaceManager.Instance.GetDice();
@@ -57,7 +82,7 @@ public class GameManager : ManagerSingletonBase<GameManager>
             int positionOfSquare = this.board.GetPositionOfSquare(square);
             if (positionOfSquare > this.tokenPosition)
             {
-                for (int i = this.tokenPosition; i <= positionOfSquare; i++)
+                for (int i = this.tokenPosition + 1; i <= positionOfSquare; i++)
                 {
                     Square nextSquare = this.board.GetSquareAtPosition(i);
                     token.AddToPath(nextSquare);
@@ -65,7 +90,7 @@ public class GameManager : ManagerSingletonBase<GameManager>
             }
             else
             {
-                for (int i = this.tokenPosition; i >= positionOfSquare; i--)
+                for (int i = this.tokenPosition - 1; i >= positionOfSquare; i--)
                 {
                     Square nextSquare = this.board.GetSquareAtPosition(i);
                     token.AddToPath(nextSquare);
