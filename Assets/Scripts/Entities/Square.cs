@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Square : MonoBehaviour
 {
-    public event Action<Square> MouseClickEvent; 
-
     public Square NextSquare;
     public Square PreviousSquare;
 
@@ -23,13 +21,5 @@ public class Square : MonoBehaviour
     void Update()
     {
         
-    }
-
-    void OnMouseUp()
-    {
-        if (MouseClickEvent != null)
-        {
-            MouseClickEvent(this);
-        }
     }
 }

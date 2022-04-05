@@ -1,30 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Board : MonoBehaviour
 {
-
-    public Material squareMaterial;
-    public Material selectedSquareMaterial;
-    
-    public Text DamageLabel;
-    public Text StressLabel;
-
-    public Token Token;
-
-    private int Damage;
-    private int Stress;
-
-    private int Oxygen;
-
-    private Square[] squares;
+    public Square StartingSquare {get; private set; }
 
     // Start is called before the first frame update
     void Start()
     {
-        squares = this.GetComponentsInChildren<Square>();
+        var squares = this.GetComponentsInChildren<Square>();
+        this.StartingSquare = squares.Single(x => x.PreviousSquare == null);
     }
 
     // Update is called once per frame
@@ -32,10 +20,5 @@ public class Board : MonoBehaviour
     {
         //.DamageLabel.text = $"{this.Damage}";
         //this.StressLabel.text = $"{this.Stress}";
-    }
-
-    public Square[] GetSquares()
-    {
-        return squares;
     }
 }

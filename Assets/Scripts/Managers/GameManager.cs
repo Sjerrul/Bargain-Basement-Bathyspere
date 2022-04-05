@@ -5,6 +5,13 @@ using UnityEngine;
 public class GameManager : ManagerSingletonBase<GameManager>
 {
     private Rules rules;
+    private float smoothTime = 0.3F;
+    private Vector3 velocity = Vector3.zero;
+
+    public Board board;
+
+    public Token token;
+
     void Start()
     {
         MouseManager.Instance.TokenClicked += OnTokenClick;
@@ -23,6 +30,8 @@ public class GameManager : ManagerSingletonBase<GameManager>
     void OnTokenClick(Token token)
     {
         Debug.Log("Token Clicked");
+        Square target = this.board.StartingSquare.NextSquare.NextSquare;
+        token.SetCurrentSquare(target);
     }
 
     void OnSquareClick(Square square)
@@ -33,5 +42,12 @@ public class GameManager : ManagerSingletonBase<GameManager>
     void OnDieClick(Die die)
     {
         Debug.Log($"Die {die.Value} clicked");
+        Square targetSquare = this.token.CurrentSquare;
+
+        for (int i = 0; i < die.Value; i++)
+        {
+            targetSquare = targetSquare.NextSquare;
+        }
+
     }
 }
