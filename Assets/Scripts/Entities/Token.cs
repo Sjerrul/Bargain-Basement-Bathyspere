@@ -59,18 +59,4 @@ public class Token : MonoBehaviour
     {
         this.path.Enqueue(square);
     }
-
-    public void MoveToSquare(Square target)
-    {
-        Debug.Log("Token :: Moving to Square " + target.name);
-        Square square = this.CurrentSquare;
-        while (square != target)
-        {
-            this.path.Enqueue(square);
-            square = square.NextSquare;
-        }
-
-        this.path.Enqueue(square); // While stops when the target is found, but we need to add the target ALSO
-        Debug.Log(String.Join("-", path.Select(x => x.name)));
-    }
 }

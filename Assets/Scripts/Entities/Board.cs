@@ -41,31 +41,26 @@ public class Board : MonoBehaviour
 
     public Square GetSquareAfterSteps(Square square, int steps)
     {
-        Square result = square;
-        for (int i = 0; i < steps; i++)
+        var position = this.GetPositionOfSquare(square);
+        var targetPosition = position + steps;
+        if (targetPosition >= this.squares.Length)
         {
-            result = result.NextSquare;
-            if (result == null)
-            {
-                return null;
-            }
+            return null;
         }
 
-        return result;
+        return this.squares[targetPosition];
     }
 
     public Square GetSquareBeforeSteps(Square square, int steps)
     {
-        Square result = square;
-        for (int i = 0; i < steps; i++)
-        {
-            result = result.PreviousSquare;
-            if (result == null)
-            {
-                return null;
-            }
-        }
+        var position = this.GetPositionOfSquare(square);
 
-        return result;
+        var targetPosition = position - steps;
+        if (targetPosition < 0)
+        {
+            return null;
+        }
+        
+        return this.squares[position - steps];
     }
 }

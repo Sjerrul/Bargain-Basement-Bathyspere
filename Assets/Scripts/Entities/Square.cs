@@ -7,14 +7,11 @@ using UnityEngine;
 public class Square : MonoBehaviour
 {
     public bool IsSelected { get; private set;}
-    public Square NextSquare;
-    public Square PreviousSquare;
+    // public Square NextSquare;
+    // public Square PreviousSquare;
 
     public int StressModifier;
     public int OxygenModifier;
-
-    public Material StandardMaterial;
-    public Material SelectedMaterial;
     
     void Start()
     {
@@ -37,19 +34,19 @@ public class Square : MonoBehaviour
         var meshRenderer = this.GetComponentInChildren<MeshRenderer>();
         if (IsSelected)
         {
-            if (meshRenderer.material != SelectedMaterial)
-            {
-                meshRenderer.material = SelectedMaterial;
-            }
-            //this.transform.position = new Vector3(this.transform.position.x, 0.02f, this.transform.position.z);
+            // if (meshRenderer.material != SelectedMaterial)
+            // {
+            //     meshRenderer.material = SelectedMaterial;
+            // }
+            this.transform.position = new Vector3(this.transform.position.x, 0.02f, this.transform.position.z);
         }
         else
         {
-            if (meshRenderer.material != StandardMaterial)
-            {
-                meshRenderer.material = StandardMaterial;
-            }
-            //this.transform.position = new Vector3(this.transform.position.x, 0, this.transform.position.z);
+            // if (meshRenderer.material != StandardMaterial)
+            // {
+            //     meshRenderer.material = StandardMaterial;
+            // }
+            this.transform.position = new Vector3(this.transform.position.x, 0, this.transform.position.z);
         }
     }
     
