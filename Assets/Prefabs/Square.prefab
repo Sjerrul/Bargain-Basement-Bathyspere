@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1037134436876349586}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.15, y: 1, z: 0.35}
   m_Children:
   - {fileID: 1827750370365243176}
   - {fileID: 6641925423204277871}
@@ -49,8 +49,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NextSquare: {fileID: 0}
   PreviousSquare: {fileID: 0}
-  PowerModifier: 0
+  StressModifier: 0
   OxygenModifier: 0
+  StandardMaterial: {fileID: 2100000, guid: fd7cfc2a5f2809a468dd028919def270, type: 2}
+  SelectedMaterial: {fileID: 2100000, guid: 8a2464b4f9f142644a95eedd9ddfc0ae, type: 2}
 --- !u!54 &8776508532657791487
 Rigidbody:
   m_ObjectHideFlags: 0

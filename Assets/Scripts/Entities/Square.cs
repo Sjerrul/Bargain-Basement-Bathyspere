@@ -12,6 +12,9 @@ public class Square : MonoBehaviour
 
     public int StressModifier;
     public int OxygenModifier;
+
+    public Material StandardMaterial;
+    public Material SelectedMaterial;
     
     void Start()
     {
@@ -31,13 +34,22 @@ public class Square : MonoBehaviour
 
     void Update()
     {
+        var meshRenderer = this.GetComponentInChildren<MeshRenderer>();
         if (IsSelected)
         {
-            this.transform.position = new Vector3(this.transform.position.x, 0.5f, this.transform.position.z);
+            if (meshRenderer.material != SelectedMaterial)
+            {
+                meshRenderer.material = SelectedMaterial;
+            }
+            //this.transform.position = new Vector3(this.transform.position.x, 0.02f, this.transform.position.z);
         }
         else
         {
-            this.transform.position = new Vector3(this.transform.position.x, 0, this.transform.position.z);
+            if (meshRenderer.material != StandardMaterial)
+            {
+                meshRenderer.material = StandardMaterial;
+            }
+            //this.transform.position = new Vector3(this.transform.position.x, 0, this.transform.position.z);
         }
     }
     
