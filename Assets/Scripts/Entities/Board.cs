@@ -8,14 +8,18 @@ public class Board : MonoBehaviour
 {
     private Square[] squares;
 
-    void Start()
-    {
-        squares = this.GetComponentsInChildren<Square>();
+    public void LoadSquares()
+    {   
+        this.squares = this.GetComponentsInChildren<Square>();
+        Debug.Log($"Board::Squares found: {string.Join(", ", this.squares.Select(x => x.name))}");
+        
     }
 
     public Square GetSquareAtPosition(int position)
     {
-        return this.squares[position];
+        Square square = this.squares[position];
+        Debug.Log($"Board::Square at position {position} is {square.name}");
+        return square;
     }
 
     public int GetPositionOfSquare(Square square)

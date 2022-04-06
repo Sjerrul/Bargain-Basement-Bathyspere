@@ -50,9 +50,11 @@ public class Token : MonoBehaviour
 
     public void SetCurrentSquare(Square currentSquare)
     {
-        Debug.Log("Token :: Set to square: " + currentSquare.name);
+        Debug.Log("Token::Set to square: " + currentSquare.name);
         this.CurrentSquare = currentSquare;
         this.transform.position = currentSquare.transform.position;
+
+        Debug.Log($"Token::Moved to ({currentSquare.transform.position.x}, {currentSquare.transform.position.y}, {currentSquare.transform.position.z})");
     }
 
     public void AddToPath(Square square)

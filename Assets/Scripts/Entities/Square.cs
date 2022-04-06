@@ -38,7 +38,7 @@ public class Square : MonoBehaviour
             // {
             //     meshRenderer.material = SelectedMaterial;
             // }
-            this.transform.position = new Vector3(this.transform.position.x, 0.02f, this.transform.position.z);
+            this.transform.position = new Vector3(this.transform.position.x, 0.1f, this.transform.position.z);
         }
         else
         {

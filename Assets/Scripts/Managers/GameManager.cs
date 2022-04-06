@@ -13,14 +13,27 @@ public class GameManager : ManagerSingletonBase<GameManager>
 
     public Token token;
 
+    public string BoardToLoad;
+
+    public GameObject squarePrefab;
+
     private int tokenPosition;
 
     private int oxygen;
     private int stress;
     private int damage;
 
+
+    void Awake()
+    {
+        Debug.Log("GameManager::Loading level " + this.BoardToLoad);
+        string path = Application.dataPath + "/Boards/" + this.BoardToLoad;
+        BoardFileHandler.Load(path, this.board, this.squarePrefab);
+    }
+
     void Start()
     {
+        Debug.Log("GameManager::Adding event listeners");
         MouseManager.Instance.TokenClicked += OnTokenClick;
         MouseManager.Instance.SquareClicked += OnSquareClick;
         MouseManager.Instance.DieClicked += OnDieClick;
@@ -29,6 +42,8 @@ public class GameManager : ManagerSingletonBase<GameManager>
         
         this.rules = GetComponent<Rules>();
 
+        Debug.Log("GameManager::setting up board");
+        this.board.LoadSquares();
         Square startingSquare = this.board.GetSquareAtPosition(0);
         this.token.SetCurrentSquare(startingSquare);
         tokenPosition = 0;
@@ -44,12 +59,12 @@ public class GameManager : ManagerSingletonBase<GameManager>
 
     void OnTokenClick(Token token)
     {
-        Debug.Log("Token Clicked");
+        Debug.Log("GameManager::Token Clicked");
     }
 
     private void OnTokenVisitsSquare(Square square)
     {
-        Debug.Log("Square Visited: " + square.name);
+        Debug.Log("GameManager::Square Visited: " + square.name);
         if (square.OxygenModifier != 0)
         {
             this.oxygen -= square.OxygenModifier;
@@ -65,7 +80,7 @@ public class GameManager : ManagerSingletonBase<GameManager>
 
     void OnSquareClick(Square square)
     {
-        Debug.Log("Square Clicked");
+        Debug.Log("GameManager::Square Clicked: " + square.name);
         if (square.IsSelected)
         {
             this.board.UnmarkAllSquares();
@@ -103,7 +118,7 @@ public class GameManager : ManagerSingletonBase<GameManager>
 
     void OnDieClick(Die die)
     {
-        Debug.Log($"Die {die.Value} clicked");
+        Debug.Log($"GameManager::Die {die.Value} clicked");
 
         var dice = InterfaceManager.Instance.GetDice();
         foreach (var d in dice)
