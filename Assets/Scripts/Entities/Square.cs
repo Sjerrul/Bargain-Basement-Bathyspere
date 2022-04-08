@@ -28,6 +28,26 @@ public class Square : MonoBehaviour
         }
 
         this.GetComponentInChildren<TextMesh>().text = text.ToString();
+
+        var line = this.transform.Find("Line");
+        var box = this.transform.Find("Box");
+        Debug.Log(line);
+        if (NextSquare != null)
+        {
+            Strech(line.gameObject, this.transform.position, this.NextSquare.transform.position, box.rotation, mirrorZ: true);
+        }
+
+    }
+
+    void OnValidate()
+    {
+          var line = this.transform.Find("Line");
+        var box = this.transform.Find("Box");
+        Debug.Log(line);
+        if (NextSquare != null)
+        {
+            Strech(line.gameObject, this.transform.position, this.NextSquare.transform.position, box.rotation, mirrorZ: true);
+        }
     }
 
     void Update()
@@ -55,4 +75,19 @@ public class Square : MonoBehaviour
     {
         this.IsSelected = isSelected;
     }
+
+     public void Strech(GameObject sprite,Vector3 initialPosition, Vector3 finalPosition, Quaternion rotation, bool mirrorZ) {
+         Debug.Log("Stretline");
+         Vector3 centerPos = (initialPosition + finalPosition) / 2f;
+         sprite.transform.position = centerPos;
+         Vector3 direction = finalPosition - initialPosition;
+         direction = Vector3.Normalize(direction);
+         sprite.transform.up = direction;
+         
+
+         if (mirrorZ) sprite.transform.right *= -1f;
+         Vector3 scale = new Vector3(1,1,1);
+         scale.y = Vector3.Distance(initialPosition, finalPosition);
+         sprite.transform.localScale = scale;
+     }
 }

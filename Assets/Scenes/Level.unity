@@ -523,6 +523,10 @@ PrefabInstance:
       propertyPath: NextSquare
       value: 
       objectReference: {fileID: 1051345120}
+    - target: {fileID: 8711890869494155929, guid: 4887ff30824fbb44ab7961e24caf5be1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2f4f6e277201d014c92e20db7188af18, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4887ff30824fbb44ab7961e24caf5be1, type: 3}
 --- !u!1 &436422770

@@ -27,12 +27,9 @@ public class CameraManager : MonoBehaviour
     {
         var camera = Camera.main;
 
-        Debug.Log("Lateupdate");
         var desiredPosition = Target.position + offset;
         var smoothedPosition = Vector3.Lerp(camera.transform.position, desiredPosition,  smoothSPeed);
         camera.transform.position = smoothedPosition;
     }
-
-
  }
 
