@@ -13,8 +13,11 @@ public class LevelEditorManager : MonoBehaviour
     public void Save()
     {
         string path = Application.dataPath + "/Boards/" + boardName;
+        Debug.Log($"LevelEditorManager::Serializing board");
+        BoardData boardData = BoardSerializer.Serialize(this.Board);
+
         Debug.Log($"LevelEditorManager::Saving {path}");
-        BoardFileHandler.Save(path, this.Board);
+        SaveFileHandler.Save(path, boardData);
 
         Debug.Log($"LevelEditorManager::Saved {path}");
     }
@@ -24,7 +27,11 @@ public class LevelEditorManager : MonoBehaviour
         string path = Application.dataPath + "/Boards/" + boardName;
 
         Debug.Log($"LevelEditorManager::Loading {path}");
-        BoardFileHandler.Load(path, this.Board, this.squarePrefab);
-        Debug.Log($"LevelEditorManager::Loading {path}");
+        BoardData boardData = SaveFileHandler.Load(path);
+
+        Debug.Log($"LevelEditorManager::Deserializing board");
+        BoardSerializer.Deserialize(boardData, this.Board, this.squarePrefab);
+
+        Debug.Log($"LevelEditorManager::Loaded {path}");
     }
 }

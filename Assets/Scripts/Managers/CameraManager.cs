@@ -4,52 +4,33 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    public float dragSpeed = 2;
-    private Vector3 dragOrigin;
- 
- 
-    private float ZoomAmount = 0; //With Positive and negative values
- public float MaxToClamp = 10;
- public float ROTSpeed = 10;
- 
+    public Transform Target;
+
+    public Vector3 offset;
+    public float smoothSPeed;
+
     void Update()
     {
         var camera = Camera.main;
 
         if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
-            
-            if (camera.fieldOfView > 1)
-            {
-                camera.fieldOfView--;
-            }
+            offset -= new Vector3(0, 0.1f, 0);
         }
         if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
-            if (camera.fieldOfView < 100)
-            {
-                camera.fieldOfView++;
-            }
+            offset += new Vector3(0, 0.1f, 0);
         }
+    }
 
+    void FixedUpdate()
+    {
+        var camera = Camera.main;
 
-
-
-
-        
-        if (Input.GetMouseButtonDown(0))
-        {
-            dragOrigin = Input.mousePosition;
-            return;
-        }
- 
-        if (!Input.GetMouseButton(0))
-         return;
- 
-        Vector3 pos = camera.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
-        Vector3 move = new Vector3(pos.x * dragSpeed, 0, pos.y * dragSpeed);
- 
-        camera.transform.Translate(-move, Space.World); 
+        Debug.Log("Lateupdate");
+        var desiredPosition = Target.position + offset;
+        var smoothedPosition = Vector3.Lerp(camera.transform.position, desiredPosition,  smoothSPeed);
+        camera.transform.position = smoothedPosition;
     }
 
 

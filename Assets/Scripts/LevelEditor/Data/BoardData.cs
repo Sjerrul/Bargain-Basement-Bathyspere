@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-[CreateAssetMenu(menuName = "DataFile/BoardData")]
-public class BoardData : ScriptableObject
+public class BoardData
 {
     public List<SquareData> Squares;
 }

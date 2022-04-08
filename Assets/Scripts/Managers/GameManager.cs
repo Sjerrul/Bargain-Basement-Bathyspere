@@ -6,17 +6,6 @@ using UnityEngine;
 public class GameManager : ManagerSingletonBase<GameManager>
 {
     private Rules rules;
-    private float smoothTime = 0.3F;
-    private Vector3 velocity = Vector3.zero;
-
-    public Board board;
-
-    public Token token;
-
-    public string BoardToLoad;
-
-    public GameObject squarePrefab;
-
     private int tokenPosition;
 
     private int oxygen;
@@ -24,11 +13,24 @@ public class GameManager : ManagerSingletonBase<GameManager>
     private int damage;
 
 
+    public string BoardToLoad;
+    public Board Board;
+
+    public Token Token;
+
+    public GameObject squarePrefab;
+
+
     void Awake()
     {
         Debug.Log("GameManager::Loading level " + this.BoardToLoad);
         string path = Application.dataPath + "/Boards/" + this.BoardToLoad;
-        BoardFileHandler.Load(path, this.board, this.squarePrefab);
+
+        Debug.Log($"GameManager::Loading {path}");
+        BoardData boardData = SaveFileHandler.Load(path);
+
+        Debug.Log($"GameManager::Deserializing board");
+        BoardSerializer.Deserialize(boardData, this.Board, this.squarePrefab);
     }
 
     void Start()
@@ -38,13 +40,13 @@ public class GameManager : ManagerSingletonBase<GameManager>
         MouseManager.Instance.SquareClicked += OnSquareClick;
         MouseManager.Instance.DieClicked += OnDieClick;
 
-        this.token.VisitSquare += OnTokenVisitsSquare;
+        this.Token.VisitSquare += OnTokenVisitsSquare;
         
         this.rules = GetComponent<Rules>();
 
         Debug.Log("GameManager::Setting up board");
-        Square startingSquare = this.board.GetSquareAtPosition(0);
-        this.token.SetCurrentSquare(startingSquare);
+        Square startingSquare = this.Board.GetSquareAtPosition(0);
+        this.Token.SetCurrentSquare(startingSquare);
         tokenPosition = 0;
 
         this.oxygen = 10;
@@ -83,7 +85,7 @@ public class GameManager : ManagerSingletonBase<GameManager>
         Debug.Log("GameManager::Square Clicked: " + square.name);
         if (square.IsSelected)
         {
-            this.board.UnmarkAllSquares();
+            this.Board.UnmarkAllSquares();
             var dice = InterfaceManager.Instance.GetDice();
             foreach (var d in dice)
             {
@@ -94,21 +96,21 @@ public class GameManager : ManagerSingletonBase<GameManager>
             }
 
 
-            int positionOfSquare = this.board.GetPositionOfSquare(square);
+            int positionOfSquare = this.Board.GetPositionOfSquare(square);
             if (positionOfSquare > this.tokenPosition)
             {
                 for (int i = this.tokenPosition + 1; i <= positionOfSquare; i++)
                 {
-                    Square nextSquare = this.board.GetSquareAtPosition(i);
-                    token.AddToPath(nextSquare);
+                    Square nextSquare = this.Board.GetSquareAtPosition(i);
+                    this.Token.AddToPath(nextSquare);
                 }
             }
             else
             {
                 for (int i = this.tokenPosition - 1; i >= positionOfSquare; i--)
                 {
-                    Square nextSquare = this.board.GetSquareAtPosition(i);
-                    token.AddToPath(nextSquare);
+                    Square nextSquare = this.Board.GetSquareAtPosition(i);
+                    this.Token.AddToPath(nextSquare);
                 }
             }
 
@@ -127,11 +129,11 @@ public class GameManager : ManagerSingletonBase<GameManager>
         }
 
         die.SetSelected(true);
-        Square tokenSquare = this.board.GetSquareAtPosition(this.tokenPosition);
+        Square tokenSquare = this.Board.GetSquareAtPosition(this.tokenPosition);
 
-        this.board.UnmarkAllSquares();
-        Square squareAhead = this.board.GetSquareAfterSteps(tokenSquare, die.Value);
-        Square squareBehind = this.board.GetSquareBeforeSteps(tokenSquare, die.Value);
+        this.Board.UnmarkAllSquares();
+        Square squareAhead = this.Board.GetSquareAfterSteps(tokenSquare, die.Value);
+        Square squareBehind = this.Board.GetSquareBeforeSteps(tokenSquare, die.Value);
         
         if (squareAhead != null)
         {

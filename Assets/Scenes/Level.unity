@@ -285,9 +285,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72c0d96d29fc7e04f89b5243587e4764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dragSpeed: 0.1
-  MaxToClamp: 10
-  ROTSpeed: 10
+  Target: {fileID: 1756928998}
+  offset: {x: 0, y: 10, z: 0}
+  smoothSPeed: 0.09
 --- !u!4 &181542271
 Transform:
   m_ObjectHideFlags: 0
@@ -2189,9 +2189,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 966fcd8d9307f7846aa843e12d88ee09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  board: {fileID: 1926767083}
-  token: {fileID: 1756928997}
   BoardToLoad: 0ez
+  Board: {fileID: 1926767083}
+  Token: {fileID: 1756928997}
   squarePrefab: {fileID: 1037134436876349586, guid: 4887ff30824fbb44ab7961e24caf5be1, type: 3}
 --- !u!4 &1965219248
 Transform:
