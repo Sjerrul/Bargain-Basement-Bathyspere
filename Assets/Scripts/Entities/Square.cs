@@ -76,18 +76,25 @@ public class Square : MonoBehaviour
         this.IsSelected = isSelected;
     }
 
-     public void Strech(GameObject sprite,Vector3 initialPosition, Vector3 finalPosition, Quaternion rotation, bool mirrorZ) {
+     public void Strech(GameObject sprite, Vector3 initialPosition, Vector3 finalPosition, Quaternion rotation, bool mirrorZ) {
          Debug.Log("Stretline");
          Vector3 centerPos = (initialPosition + finalPosition) / 2f;
          sprite.transform.position = centerPos;
-         Vector3 direction = finalPosition - initialPosition;
-         direction = Vector3.Normalize(direction);
-         sprite.transform.up = direction;
-         
 
-         if (mirrorZ) sprite.transform.right *= -1f;
-         Vector3 scale = new Vector3(1,1,1);
-         scale.y = Vector3.Distance(initialPosition, finalPosition);
-         sprite.transform.localScale = scale;
+        sprite.transform.localScale = new Vector3(1, 1, 1);
+         sprite.transform.rotation = Quaternion.identity;
+         sprite.transform.RotateAround(centerPos, new Vector3(1,0,0), 90);
+
+         Vector3 direction = initialPosition - finalPosition;
+   
+        float angle = Vector3.Angle(direction, transform.forward);
+        sprite.transform.RotateAround(centerPos, new Vector3(0,1,0), angle);
+
+
+        //  if (mirrorZ) sprite.transform.right *= -1f;
+          Vector3 scale = new Vector3(1,1,1);
+          scale.y = Vector3.Distance(initialPosition, finalPosition);
+          scale.y *= 0.6f;
+          sprite.transform.localScale = scale;
      }
 }

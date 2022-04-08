@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1037134436876349586}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6641925423204277871}
   - {fileID: 37853069601300494}
@@ -80,8 +80,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.01, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.01, z: 0.5194026}
+  m_Center: {x: 0, y: 0, z: -0.007839754}
 --- !u!1 &5678267891676079588
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,7 +192,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8696093348239814027}
   - component: {fileID: 8711890869494155929}
-  - component: {fileID: 2008115796085350568}
   m_Layer: 0
   m_Name: Line
   m_TagString: Untagged
@@ -208,8 +207,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7057778304547329151}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.021, y: -0, z: -0.023}
-  m_LocalScale: {x: 0.1428, y: 0.54018, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 0, z: 1}
   m_Children: []
   m_Father: {fileID: 6352910032109355663}
   m_RootOrder: 2
@@ -265,19 +264,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!65 &2008115796085350568
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7057778304547329151}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.5, y: 1.5000004, z: -0}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9056883147359755759
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,8 +340,8 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1.5, y: 1.5}
+  m_DrawMode: 1
+  m_Size: {x: 1, y: 0.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -370,7 +356,7 @@ BoxCollider:
   m_GameObject: {fileID: 9056883147359755759}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 1.5000004, z: -0}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.0137833, y: 0.51805186, z: 0}
+  m_Center: {x: 0, y: 0.0019870251, z: 5.5029388e-17}
