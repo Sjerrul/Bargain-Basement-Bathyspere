@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using UnityEngine;
 
 public static class BoardFileHandler
@@ -30,6 +31,30 @@ public static class BoardFileHandler
                 
             }
             formatter.Serialize(stream, array);         
+        }
+
+        string path2 = path + "_json";
+        using (FileStream stream = new FileStream(path2, FileMode.Create))
+        {
+            var array = new List<SquareData>();
+            foreach (var square in boardToSave.GetComponentsInChildren<Square>())
+            {
+                SquareData squareData = new SquareData(square);
+                array.Add(squareData);
+                var  j= JsonUtility.ToJson(squareData);  
+                Debug.Log(j);
+            }
+
+            BoardData data = new BoardData
+            {
+                Squares = array
+            };
+
+            var json = JsonUtility.ToJson(data);  
+            Debug.Log(json);
+            byte[] info = new UTF8Encoding(true).GetBytes(json);
+       
+            stream.Write(info, 0, info.Length);
         }
 
         Debug.Log("Saved");

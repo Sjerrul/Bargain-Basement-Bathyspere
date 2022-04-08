@@ -42,8 +42,7 @@ public class GameManager : ManagerSingletonBase<GameManager>
         
         this.rules = GetComponent<Rules>();
 
-        Debug.Log("GameManager::setting up board");
-        this.board.LoadSquares();
+        Debug.Log("GameManager::Setting up board");
         Square startingSquare = this.board.GetSquareAtPosition(0);
         this.token.SetCurrentSquare(startingSquare);
         tokenPosition = 0;
@@ -52,6 +51,7 @@ public class GameManager : ManagerSingletonBase<GameManager>
         this.stress = 10;
         this.damage = 0;
 
+        Debug.Log("GameManager::Setting up interface");
         InterfaceManager.Instance.SetOxygen(this.oxygen);
         InterfaceManager.Instance.SetStress(this.stress);
         InterfaceManager.Instance.SetDamage(this.damage);

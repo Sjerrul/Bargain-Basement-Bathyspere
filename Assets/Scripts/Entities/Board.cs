@@ -1,19 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
+[Serializable]
 public class Board : MonoBehaviour
 {
     private Square[] squares;
 
-    public void LoadSquares()
-    {   
+    void Start()
+    {
+        Debug.Log($"Board::Loading my squares in memory");
         this.squares = this.GetComponentsInChildren<Square>();
         Debug.Log($"Board::Squares found: {string.Join(", ", this.squares.Select(x => x.name))}");
-        
     }
+
 
     public Square GetSquareAtPosition(int position)
     {

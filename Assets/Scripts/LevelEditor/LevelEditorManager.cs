@@ -13,14 +13,18 @@ public class LevelEditorManager : MonoBehaviour
     public void Save()
     {
         string path = Application.dataPath + "/Boards/" + boardName;
+        Debug.Log($"LevelEditorManager::Saving {path}");
         BoardFileHandler.Save(path, this.Board);
 
-        Debug.Log("Saved");
+        Debug.Log($"LevelEditorManager::Saved {path}");
     }
 
     public void Load()
     {
         string path = Application.dataPath + "/Boards/" + boardName;
+
+        Debug.Log($"LevelEditorManager::Loading {path}");
         BoardFileHandler.Load(path, this.Board, this.squarePrefab);
+        Debug.Log($"LevelEditorManager::Loading {path}");
     }
 }

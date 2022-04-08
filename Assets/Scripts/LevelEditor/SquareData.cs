@@ -6,15 +6,20 @@ using UnityEngine;
 [Serializable]
 public class SquareData
 {
+    public string Reference;
+    
     public float[] Rotation;
     public float[] Position;
     public int OxygenModifier;
     public int StressModifier;
 
+    public string NextSquare;
+    public string PreviousSquare;
     public string Name; 
 
     public SquareData(Square square)
     {
+        this.Reference = square.Reference;
         this.OxygenModifier = square.OxygenModifier;
         this.StressModifier = square.StressModifier;
 
@@ -34,5 +39,8 @@ public class SquareData
         };
 
         this.Name = square.name;
+
+        this.NextSquare = square.NextSquare?.Reference;
+        this.PreviousSquare = square.PreviousSquare?.Reference;
     }
 }

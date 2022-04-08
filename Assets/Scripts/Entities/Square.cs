@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
+[Serializable]
 public class Square : MonoBehaviour
 {
+    public string Reference  = $"{Guid.NewGuid()}";
     public bool IsSelected { get; private set;}
-    // public Square NextSquare;
-    // public Square PreviousSquare;
+    public Square PreviousSquare;
+    public Square NextSquare;
 
     public int StressModifier;
     public int OxygenModifier;
-    
     void Start()
     {
         StringBuilder text = new StringBuilder();
