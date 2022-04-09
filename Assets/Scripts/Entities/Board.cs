@@ -14,14 +14,12 @@ public class Board : MonoBehaviour
     {
         Debug.Log($"Board::Loading my squares in memory");
         this.squares = this.GetComponentsInChildren<Square>();
-        Debug.Log($"Board::Squares found: {string.Join(", ", this.squares.Select(x => x.name))}");
+        Debug.Log($"Board:: {this.squares.Length} squares found");
     }
-
 
     public Square GetSquareAtPosition(int position)
     {
         Square square = this.squares[position];
-        Debug.Log($"Board::Square at position {position} is {square.name}");
         return square;
     }
 

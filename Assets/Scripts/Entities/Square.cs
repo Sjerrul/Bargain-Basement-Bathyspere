@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public class Square : MonoBehaviour
@@ -31,7 +32,6 @@ public class Square : MonoBehaviour
 
         var line = this.transform.Find("Line");
         var box = this.transform.Find("Box");
-        Debug.Log(line);
         if (NextSquare != null)
         {
             Strech(line.gameObject, this.transform.position, this.NextSquare.transform.position, box.rotation, mirrorZ: true);
@@ -41,9 +41,8 @@ public class Square : MonoBehaviour
 
     void OnValidate()
     {
-          var line = this.transform.Find("Line");
+        var line = this.transform.Find("Line");
         var box = this.transform.Find("Box");
-        Debug.Log(line);
         if (NextSquare != null)
         {
             Strech(line.gameObject, this.transform.position, this.NextSquare.transform.position, box.rotation, mirrorZ: true);
@@ -52,22 +51,14 @@ public class Square : MonoBehaviour
 
     void Update()
     {
-        var meshRenderer = this.GetComponentInChildren<MeshRenderer>();
+        var box = this.transform.Find("Box").gameObject.GetComponent<SpriteRenderer>();
         if (IsSelected)
         {
-            // if (meshRenderer.material != SelectedMaterial)
-            // {
-            //     meshRenderer.material = SelectedMaterial;
-            // }
-            this.transform.position = new Vector3(this.transform.position.x, 0.1f, this.transform.position.z);
+            box.color = Color.blue;
         }
         else
         {
-            // if (meshRenderer.material != StandardMaterial)
-            // {
-            //     meshRenderer.material = StandardMaterial;
-            // }
-            this.transform.position = new Vector3(this.transform.position.x, 0, this.transform.position.z);
+            box.color = Color.white;
         }
     }
     
@@ -77,7 +68,6 @@ public class Square : MonoBehaviour
     }
 
      public void Strech(GameObject sprite, Vector3 initialPosition, Vector3 finalPosition, Quaternion rotation, bool mirrorZ) {
-         Debug.Log("Stretline");
          Vector3 centerPos = (initialPosition + finalPosition) / 2f;
          sprite.transform.position = centerPos;
 

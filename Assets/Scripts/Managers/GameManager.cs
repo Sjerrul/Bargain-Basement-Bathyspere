@@ -7,7 +7,6 @@ public class GameManager : ManagerSingletonBase<GameManager>
 {
     private Rules rules;
     private int tokenPosition;
-
     private int oxygen;
     private int stress;
     private int damage;
@@ -36,9 +35,9 @@ public class GameManager : ManagerSingletonBase<GameManager>
     void Start()
     {
         Debug.Log("GameManager::Adding event listeners");
-        MouseManager.Instance.TokenClicked += OnTokenClick;
-        MouseManager.Instance.SquareClicked += OnSquareClick;
-        MouseManager.Instance.DieClicked += OnDieClick;
+        InputManager.Instance.TokenClicked += OnTokenClick;
+        InputManager.Instance.SquareClicked += OnSquareClick;
+        InputManager.Instance.DieClicked += OnDieClick;
 
         this.Token.VisitSquare += OnTokenVisitsSquare;
         

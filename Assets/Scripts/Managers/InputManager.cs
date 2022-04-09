@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static SceneLoader;
 
-public class MouseManager : ManagerSingletonBase<MouseManager>
+public class InputManager : ManagerSingletonBase<InputManager>
 {
     public event Action<Token> TokenClicked;
     public event Action<Square> SquareClicked;
@@ -17,6 +18,12 @@ public class MouseManager : ManagerSingletonBase<MouseManager>
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneLoader.LoadScene(Scene.Menu);
+            return;
+        }
+
         if (Input.GetMouseButtonUp(0))
         {
             if (CheckUIElementClicked())

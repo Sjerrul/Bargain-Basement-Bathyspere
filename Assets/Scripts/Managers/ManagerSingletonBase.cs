@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ManagerSingletonBase<T> : MonoBehaviour where T: Component
-{    private static T instance;
+{    
+    private static T instance;
 
     public static T Instance
     {
@@ -12,7 +13,6 @@ public class ManagerSingletonBase<T> : MonoBehaviour where T: Component
             if (instance == null)
             {
                 GameObject coreGameObject = new GameObject(typeof(T).Name);
-
                 instance = coreGameObject.AddComponent<T>();
             }
 
@@ -22,9 +22,12 @@ public class ManagerSingletonBase<T> : MonoBehaviour where T: Component
  
     protected virtual void Awake()
     {
-        if (instance == null)
-            instance = GetComponent<T>();
+        if (instance != null && instance != this)
+              DestroyImmediate(this.gameObject);
         else
-            DestroyImmediate(this);
+        {
+            instance = GetComponent<T>();;
+            DontDestroyOnLoad(instance);
+        }
     }
 }
