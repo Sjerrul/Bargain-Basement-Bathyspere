@@ -12,6 +12,7 @@ public class SquareData
     public float[] Position;
     public int OxygenModifier;
     public int StressModifier;
+    public int DamageModifier;
 
     public string NextSquare;
     public string PreviousSquare;
@@ -22,6 +23,7 @@ public class SquareData
         this.Reference = square.Reference;
         this.OxygenModifier = square.OxygenModifier;
         this.StressModifier = square.StressModifier;
+        this.DamageModifier = square.DamageModifier;
 
         this.Position = new float[3]
         {

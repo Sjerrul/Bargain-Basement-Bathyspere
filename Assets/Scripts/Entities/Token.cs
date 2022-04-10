@@ -6,7 +6,8 @@ using System.Linq;
 
 public class Token : MonoBehaviour
 {
-    public event Action<Square> VisitSquare;
+    public event Action<Square> PassSquare;
+    public event Action<Square> LandOnSquare;
 
     public Square CurrentSquare {get; private set; }
 
@@ -30,9 +31,19 @@ public class Token : MonoBehaviour
             if (inTransit)
             {
                 inTransit = false;
-                if (VisitSquare != null)
+                if (path.Count <= 0)
                 {
-                    VisitSquare(this.CurrentSquare);
+                    if (LandOnSquare != null)
+                    {
+                        LandOnSquare(this.CurrentSquare);
+                    }
+                }
+                else
+                {
+                    if (PassSquare != null)
+                    {
+                        PassSquare(this.CurrentSquare);
+                    }
                 }
             }
 

@@ -47,6 +47,7 @@ public static class BoardSerializer
             square.transform.rotation = new Quaternion(squareData.Rotation[0], squareData.Rotation[1], squareData.Rotation[2], squareData.Rotation[3]);
             square.OxygenModifier = squareData.OxygenModifier;
             square.StressModifier = squareData.StressModifier;
+            square.DamageModifier = squareData.DamageModifier;
             square.Reference = squareData.Reference;
 
             generatedSquares.Add(square);

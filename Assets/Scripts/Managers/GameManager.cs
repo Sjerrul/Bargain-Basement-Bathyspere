@@ -39,7 +39,8 @@ public class GameManager : ManagerSingletonBase<GameManager>
         InputManager.Instance.SquareClicked += OnSquareClick;
         InputManager.Instance.DieClicked += OnDieClick;
 
-        this.Token.VisitSquare += OnTokenVisitsSquare;
+        this.Token.PassSquare += OnTokenPassesSquare;
+        this.Token.LandOnSquare += OnTokenLandsOnSquare;
         
         this.rules = GetComponent<Rules>();
 
@@ -63,7 +64,7 @@ public class GameManager : ManagerSingletonBase<GameManager>
         Debug.Log("GameManager::Token Clicked");
     }
 
-    private void OnTokenVisitsSquare(Square square)
+    private void OnTokenPassesSquare(Square square)
     {
         Debug.Log("GameManager::Square Visited: " + square.name);
         if (square.OxygenModifier != 0)
@@ -79,12 +80,18 @@ public class GameManager : ManagerSingletonBase<GameManager>
         }
     }
 
+    private void OnTokenLandsOnSquare(Square square)
+    {
+        Debug.Log("GameManager::Square Landed: " + square.name);
+        square.SetMarked(true);
+    }
+
     void OnSquareClick(Square square)
     {
         Debug.Log("GameManager::Square Clicked: " + square.name);
         if (square.IsSelected)
         {
-            this.Board.UnmarkAllSquares();
+            this.Board.UnselectAllSquares();
             var dice = InterfaceManager.Instance.GetDice();
             foreach (var d in dice)
             {
@@ -130,18 +137,18 @@ public class GameManager : ManagerSingletonBase<GameManager>
         die.SetSelected(true);
         Square tokenSquare = this.Board.GetSquareAtPosition(this.tokenPosition);
 
-        this.Board.UnmarkAllSquares();
+        this.Board.UnselectAllSquares();
         Square squareAhead = this.Board.GetSquareAfterSteps(tokenSquare, die.Value);
         Square squareBehind = this.Board.GetSquareBeforeSteps(tokenSquare, die.Value);
         
         if (squareAhead != null)
         {
-            squareAhead.SetMarked(true);
+            squareAhead.SetSelected(true);
         }
 
         if (squareBehind != null)
         {
-            squareBehind.SetMarked(true);
+            squareBehind.SetSelected(true);
         }
     }
 }

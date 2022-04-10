@@ -36,11 +36,11 @@ public class Board : MonoBehaviour
         return -1;
     }
 
-    public void UnmarkAllSquares()
+    public void UnselectAllSquares()
     {
         for (int i = 0; i < squares.Length; i++)
         {
-            squares[i].SetMarked(false);
+            squares[i].SetSelected(false);
         }
     }
 

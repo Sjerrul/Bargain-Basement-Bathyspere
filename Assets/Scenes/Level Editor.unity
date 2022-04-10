@@ -3861,6 +3861,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: 12 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2942618060726903901, guid: 4887ff30824fbb44ab7961e24caf5be1, type: 3}
+      propertyPath: m_Text
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3724006228575124769, guid: 4887ff30824fbb44ab7961e24caf5be1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6352910032109355663, guid: 4887ff30824fbb44ab7961e24caf5be1, type: 3}
       propertyPath: m_RootOrder
       value: 28
@@ -3909,6 +3917,10 @@ PrefabInstance:
       propertyPath: NextSquare
       value: 
       objectReference: {fileID: 1240337326}
+    - target: {fileID: 8253140304372344770, guid: 4887ff30824fbb44ab7961e24caf5be1, type: 3}
+      propertyPath: DamageModifier
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8696093348239814027, guid: 4887ff30824fbb44ab7961e24caf5be1, type: 3}
       propertyPath: m_LocalScale.y
       value: 0.5161385
