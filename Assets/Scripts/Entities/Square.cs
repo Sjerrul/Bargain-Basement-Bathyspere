@@ -15,38 +15,42 @@ public class Square : MonoBehaviour
 
     public int StressModifier;
     public int OxygenModifier;
+
     void Start()
     {
-        StringBuilder text = new StringBuilder();
+
+    }
+
+    private void UpdateText()
+    {
+        var stressLabel = this.transform.Find("Modifiers/Stress/Text").gameObject.GetComponent<TextMesh>();
         if (StressModifier != 0)
         {
-            text.AppendLine($"S-{this.StressModifier}");
+            this.transform.Find("Modifiers/Stress").gameObject.SetActive(true);
+            stressLabel.text = $"-{this.StressModifier}";
         }
-
+        else
+        {
+            this.transform.Find("Modifiers/Stress").gameObject.SetActive(false);
+        }
+        
+        var oxygenLabel = this.transform.Find("Modifiers/Oxygen/Text").gameObject.GetComponent<TextMesh>();
         if (OxygenModifier != 0)
         {
-            text.AppendLine($"O-{this.OxygenModifier}");
+            this.transform.Find("Modifiers/Oxygen").gameObject.SetActive(true);
+            oxygenLabel.text = $"-{this.OxygenModifier}";
         }
-
-        this.GetComponentInChildren<TextMesh>().text = text.ToString();
-
-        var line = this.transform.Find("Line");
-        var box = this.transform.Find("Box");
-        if (NextSquare != null)
+        else
         {
-            Strech(line.gameObject, this.transform.position, this.NextSquare.transform.position, box.rotation, mirrorZ: true);
+            this.transform.Find("Modifiers/Oxygen").gameObject.SetActive(false);
+            oxygenLabel.text = string.Empty;
         }
-
     }
 
     void OnValidate()
     {
-        var line = this.transform.Find("Line");
-        var box = this.transform.Find("Box");
-        if (NextSquare != null)
-        {
-            Strech(line.gameObject, this.transform.position, this.NextSquare.transform.position, box.rotation, mirrorZ: true);
-        }
+        UpdateLine();
+        UpdateText();
     }
 
     void Update()
@@ -60,8 +64,21 @@ public class Square : MonoBehaviour
         {
             box.color = Color.white;
         }
+
+        UpdateText();
+        UpdateLine();
     }
     
+    private void UpdateLine()
+    {
+        var line = this.transform.Find("Line");
+        var box = this.transform.Find("Box");
+        if (NextSquare != null)
+        {
+            Strech(line.gameObject, this.transform.position, this.NextSquare.transform.position, box.rotation, mirrorZ: true);
+        }
+    }
+
     public void SetMarked(bool isSelected)
     {
         this.IsSelected = isSelected;
