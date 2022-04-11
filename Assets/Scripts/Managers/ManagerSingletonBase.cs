@@ -26,8 +26,7 @@ public class ManagerSingletonBase<T> : MonoBehaviour where T: Component
               DestroyImmediate(this.gameObject);
         else
         {
-            instance = GetComponent<T>();;
-            DontDestroyOnLoad(instance);
+            instance = GetComponent<T>();
         }
     }
 }

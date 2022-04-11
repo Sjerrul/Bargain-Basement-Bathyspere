@@ -5,6 +5,13 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum SquareType
+{
+    Regular = 0,
+    Start  = 1,
+    Goal  = 2
+}
+
 [Serializable]
 public class Square : MonoBehaviour
 {
@@ -13,6 +20,8 @@ public class Square : MonoBehaviour
     public bool IsMarked { get; private set;}
     public Square PreviousSquare;
     public Square NextSquare;
+
+    public SquareType SquareType;
 
     public int StressModifier;
     public int OxygenModifier;

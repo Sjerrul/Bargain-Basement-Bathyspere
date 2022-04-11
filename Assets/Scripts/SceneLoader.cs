@@ -8,7 +8,9 @@ public static class SceneLoader
     public enum Scene
     {
         Menu = 0,
-        Level = 1
+        Level = 1,
+
+        LevelEndMenu = 2
     }
 
     public static void LoadScene(Scene scene)

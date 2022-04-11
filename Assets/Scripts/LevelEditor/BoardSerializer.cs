@@ -50,6 +50,8 @@ public static class BoardSerializer
             square.DamageModifier = squareData.DamageModifier;
             square.Reference = squareData.Reference;
 
+            square.SquareType = (SquareType)squareData.SquareType;
+
             generatedSquares.Add(square);
         }
 

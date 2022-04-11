@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static SceneLoader;
 
 public class GameManager : ManagerSingletonBase<GameManager>
 {
@@ -83,6 +84,12 @@ public class GameManager : ManagerSingletonBase<GameManager>
     private void OnTokenLandsOnSquare(Square square)
     {
         Debug.Log("GameManager::Square Landed: " + square.name);
+        if (square.SquareType == SquareType.Start)
+        {
+            SceneLoader.LoadScene(Scene.LevelEndMenu);
+        }
+
+
         square.SetMarked(true);
     }
 
@@ -149,6 +156,20 @@ public class GameManager : ManagerSingletonBase<GameManager>
         if (squareBehind != null)
         {
             squareBehind.SetSelected(true);
+        }
+        else
+        {
+            if (tokenPosition == 0)
+            {
+                return;
+            }
+            
+            Debug.Log("NoSquareBehind");
+            // Can only happen when moving of the top of the board, so activate the first square
+            var firstSquare = this.Board.GetSquareAtPosition(0);
+
+            Debug.Log(firstSquare.name);
+            firstSquare.SetSelected(true);
         }
     }
 }

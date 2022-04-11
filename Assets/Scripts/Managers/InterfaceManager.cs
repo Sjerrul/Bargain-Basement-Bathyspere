@@ -50,6 +50,11 @@ public class InterfaceManager : ManagerSingletonBase<InterfaceManager>
     public void RollDice()
     {
         var currentAvailableDice = dicePanel.GetComponentsInChildren<Die>();
+        if (currentAvailableDice.Length != 0)
+        {
+            return;
+        }
+
         foreach (var die in currentAvailableDice)
         {
             GameObject.Destroy(die.gameObject);

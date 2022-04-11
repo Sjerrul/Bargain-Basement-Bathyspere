@@ -17,6 +17,7 @@ public class SquareData
     public string NextSquare;
     public string PreviousSquare;
     public string Name; 
+    public int SquareType;
 
     public SquareData(Square square)
     {
@@ -44,5 +45,8 @@ public class SquareData
 
         this.NextSquare = square.NextSquare?.Reference;
         this.PreviousSquare = square.PreviousSquare?.Reference;
+
+        this.SquareType = (int)square.SquareType;
+
     }
 }
