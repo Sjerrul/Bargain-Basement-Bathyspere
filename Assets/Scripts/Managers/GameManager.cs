@@ -19,8 +19,9 @@ public class GameManager : ManagerSingletonBase<GameManager>
     public Token Token;
 
     public GameObject squarePrefab;
-
-
+    public GameObject oxygenParticleSystem;
+    public GameObject stressParticleSystem;
+    public GameObject damageParticleSystem;
     void Awake()
     {
         Debug.Log("GameManager::Loading level " + this.BoardToLoad);
@@ -63,6 +64,7 @@ public class GameManager : ManagerSingletonBase<GameManager>
     void OnTokenClick(Token token)
     {
         Debug.Log("GameManager::Token Clicked");
+        Instantiate(stressParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
     }
 
     private void OnTokenPassesSquare(Square square)
@@ -72,12 +74,14 @@ public class GameManager : ManagerSingletonBase<GameManager>
         {
             this.oxygen -= square.OxygenModifier;
             InterfaceManager.Instance.SetOxygen(this.oxygen);
+            Instantiate(oxygenParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
         }
 
         if (square.StressModifier != 0)
         {
             this.stress -= square.StressModifier;
             InterfaceManager.Instance.SetStress(this.stress);
+             Instantiate(stressParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
         }
     }
 
@@ -163,7 +167,7 @@ public class GameManager : ManagerSingletonBase<GameManager>
             {
                 return;
             }
-            
+
             Debug.Log("NoSquareBehind");
             // Can only happen when moving of the top of the board, so activate the first square
             var firstSquare = this.Board.GetSquareAtPosition(0);
