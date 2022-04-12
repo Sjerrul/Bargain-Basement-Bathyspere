@@ -71,4 +71,5 @@ public class InterfaceManager : ManagerSingletonBase<InterfaceManager>
             die.GetComponent<Die>().Value = roll;
         }
     }
+
 }

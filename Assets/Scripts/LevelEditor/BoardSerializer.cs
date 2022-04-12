@@ -49,7 +49,8 @@ public static class BoardSerializer
             square.StressModifier = squareData.StressModifier;
             square.DamageModifier = squareData.DamageModifier;
             square.Reference = squareData.Reference;
-
+            square.IsDepthZone = squareData.IsDepthZone;
+            
             square.SquareType = (SquareType)squareData.SquareType;
 
             generatedSquares.Add(square);

@@ -27,11 +27,13 @@ public class Square : MonoBehaviour
     public int OxygenModifier;
 
     public int DamageModifier;
+
+    public bool IsDepthZone;
    
     void OnValidate()
     {
-        UpdateLine();
         UpdateModifiers();
+
     }
 
     void Update()
@@ -56,7 +58,6 @@ public class Square : MonoBehaviour
         }
 
         UpdateModifiers();
-        UpdateLine();
     }
     public void SetMarked(bool isMarked)
     {
@@ -68,72 +69,28 @@ public class Square : MonoBehaviour
         this.IsSelected = isSelected;
     }
 
-     private void Strech(GameObject sprite, Vector3 initialPosition, Vector3 finalPosition, Quaternion rotation, bool mirrorZ) {
-         Vector3 centerPos = (initialPosition + finalPosition) / 2f;
-         sprite.transform.position = centerPos;
-
-         sprite.transform.localScale = new Vector3(1, 1, 1);
-         sprite.transform.rotation = Quaternion.identity;
-         sprite.transform.RotateAround(centerPos, new Vector3(1,0,0), 90);
-
-         Vector3 direction = initialPosition - finalPosition;
-   
-        float angle = Vector3.Angle(direction, transform.forward);
-        sprite.transform.RotateAround(centerPos, new Vector3(0,1,0), angle);
-
-
-        //  if (mirrorZ) sprite.transform.right *= -1f;
-          Vector3 scale = new Vector3(1,1,1);
-          scale.y = Vector3.Distance(initialPosition, finalPosition);
-          scale.y *= 0.6f;
-          sprite.transform.localScale = scale;
-     }
-
-    private void UpdateLine()
+    private void UpdateModifiers()
     {
-        var line = this.transform.Find("Line");
-        var box = this.transform.Find("Box");
-        if (NextSquare != null)
-        {
-            Strech(line.gameObject, this.transform.position, this.NextSquare.transform.position, box.rotation, mirrorZ: true);
-        }
+        UpdateModifier("Modifiers/Stress", this.StressModifier);
+        UpdateModifier("Modifiers/Oxygen", this.OxygenModifier);
+        UpdateModifier("Modifiers/Damage", this.DamageModifier);
+
+        var depthBar = this.transform.Find("DeptZoneBar").gameObject.GetComponent<SpriteRenderer>();
+        depthBar.enabled = this.IsDepthZone;
     }
 
-     private void UpdateModifiers()
+    private void UpdateModifier(string path, int modifier)
     {
-        var stressLabel = this.transform.Find("Modifiers/Stress/Text").gameObject.GetComponent<TextMesh>();
-        if (StressModifier != 0)
+        if (modifier != 0 && !this.IsMarked)
         {
-            this.transform.Find("Modifiers/Stress").gameObject.SetActive(true);
-            stressLabel.text = $"-{this.StressModifier}";
+            this.transform.Find(path).gameObject.SetActive(true);
+            
+            var label = this.transform.Find(path + "/Text").gameObject.GetComponent<TextMesh>();
+            label.text = $"-{modifier}";
         }
         else
         {
-            this.transform.Find("Modifiers/Stress").gameObject.SetActive(false);
-        }
-        
-        var oxygenLabel = this.transform.Find("Modifiers/Oxygen/Text").gameObject.GetComponent<TextMesh>();
-        if (OxygenModifier != 0)
-        {
-            this.transform.Find("Modifiers/Oxygen").gameObject.SetActive(true);
-            oxygenLabel.text = $"-{this.OxygenModifier}";
-        }
-        else
-        {
-            this.transform.Find("Modifiers/Oxygen").gameObject.SetActive(false);
-            oxygenLabel.text = string.Empty;
-        }
-
-        var damageLabel = this.transform.Find("Modifiers/Damage/Text").gameObject.GetComponent<TextMesh>();
-        if (DamageModifier != 0)
-        {
-            this.transform.Find("Modifiers/Damage").gameObject.SetActive(true);
-            damageLabel.text = $"-{this.DamageModifier}";
-        }
-        else
-        {
-            this.transform.Find("Modifiers/Damage").gameObject.SetActive(false);
-            damageLabel.text = string.Empty;
+            this.transform.Find(path).gameObject.SetActive(false);
         }
     }
 }

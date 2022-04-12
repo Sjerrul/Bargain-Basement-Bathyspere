@@ -19,6 +19,8 @@ public class SquareData
     public string Name; 
     public int SquareType;
 
+    public bool IsDepthZone;
+
     public SquareData(Square square)
     {
         this.Reference = square.Reference;
@@ -47,6 +49,6 @@ public class SquareData
         this.PreviousSquare = square.PreviousSquare?.Reference;
 
         this.SquareType = (int)square.SquareType;
-
+        this.IsDepthZone = square.IsDepthZone;
     }
 }

@@ -12,6 +12,8 @@ public class GameManager : ManagerSingletonBase<GameManager>
     private int stress;
     private int damage;
 
+    private bool passedDepthLine;
+    private int indexOfDepthLinePassing;
 
     public string BoardToLoad;
     public Board Board;
@@ -53,7 +55,7 @@ public class GameManager : ManagerSingletonBase<GameManager>
 
         this.oxygen = 10;
         this.stress = 10;
-        this.damage = 0;
+        this.damage = 10;
 
         Debug.Log("GameManager::Setting up interface");
         InterfaceManager.Instance.SetOxygen(this.oxygen);
@@ -70,18 +72,31 @@ public class GameManager : ManagerSingletonBase<GameManager>
     private void OnTokenPassesSquare(Square square)
     {
         Debug.Log("GameManager::Square Visited: " + square.name);
-        if (square.OxygenModifier != 0)
+        if (square.OxygenModifier != 0 && !square.IsMarked)
         {
             this.oxygen -= square.OxygenModifier;
             InterfaceManager.Instance.SetOxygen(this.oxygen);
             Instantiate(oxygenParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
         }
 
-        if (square.StressModifier != 0)
+        if (square.StressModifier != 0 && !square.IsMarked)
         {
             this.stress -= square.StressModifier;
             InterfaceManager.Instance.SetStress(this.stress);
-             Instantiate(stressParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
+            Instantiate(stressParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
+        }
+
+        if (square.DamageModifier != 0 && !square.IsMarked)
+        {
+            this.damage -= square.DamageModifier;
+            InterfaceManager.Instance.SetDamage(this.damage);
+            Instantiate(damageParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
+        }
+
+        if (square.IsDepthZone)
+        {
+            this.passedDepthLine = true;
+            this.indexOfDepthLinePassing = this.Board.GetPositionOfSquare(square);
         }
     }
 
@@ -93,6 +108,36 @@ public class GameManager : ManagerSingletonBase<GameManager>
             SceneLoader.LoadScene(Scene.LevelEndMenu);
         }
 
+        if (square.IsMarked)
+        {
+            this.stress -= square.StressModifier;
+            InterfaceManager.Instance.SetStress(this.stress);
+            Instantiate(stressParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
+        }
+
+        if (square.IsDepthZone)
+        {
+            this.stress -= 1;
+            InterfaceManager.Instance.SetStress(this.stress);
+            Instantiate(stressParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
+        }
+
+        if (passedDepthLine)
+        {
+             int squares = 0;
+            if (this.tokenPosition > this.indexOfDepthLinePassing)
+            {
+                    // GOing down
+                squares = this.tokenPosition - this.indexOfDepthLinePassing + 1;
+            } else
+            {
+                squares = this.indexOfDepthLinePassing - this.tokenPosition;
+            }
+
+            this.stress -= squares;
+            InterfaceManager.Instance.SetStress(this.stress);
+            Instantiate(stressParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
+        }
 
         square.SetMarked(true);
     }
