@@ -12,6 +12,8 @@ public class GameManager : ManagerSingletonBase<GameManager>
     private int stress;
     private int damage;
 
+    private bool gamePaused;
+
     private bool passedDepthLine;
     private int indexOfDepthLinePassing;
 
@@ -42,6 +44,11 @@ public class GameManager : ManagerSingletonBase<GameManager>
         InputManager.Instance.TokenClicked += OnTokenClick;
         InputManager.Instance.SquareClicked += OnSquareClick;
         InputManager.Instance.DieClicked += OnDieClick;
+        InputManager.Instance.MenuKeyPressed += OnMenuKeyPressed;
+        InputManager.Instance.PauseKeyPressed += OnPauseKeyPressed;
+        InterfaceManager.Instance.RollDiceClick += OnRollClick;
+        InterfaceManager.Instance.RerollDiceClick += OnRerollClick;
+
 
         this.Token.PassSquare += OnTokenPassesSquare;
         this.Token.LandOnSquare += OnTokenLandsOnSquare;
@@ -148,7 +155,7 @@ public class GameManager : ManagerSingletonBase<GameManager>
         if (square.IsSelected)
         {
             this.Board.UnselectAllSquares();
-            var dice = InterfaceManager.Instance.GetDice();
+            var dice = DiceManager.Instance.GetDice();
             foreach (var d in dice)
             {
                 if (d.IsSelected)
@@ -180,11 +187,49 @@ public class GameManager : ManagerSingletonBase<GameManager>
         }
     }
 
+    void OnMenuKeyPressed()
+    {
+        Debug.Log($"GameManager::Menu key pressed");
+        SceneLoader.LoadScene(Scene.Menu);
+    }
+
+    void OnPauseKeyPressed()
+    {
+        Debug.Log($"GameManager::Pause key pressed");
+        Time.timeScale = gamePaused ? 1 : 0;
+        gamePaused = !gamePaused;
+    }
+
+    void OnRollClick()
+    {
+        if (DiceManager.Instance.AreDiceAvailable())
+        {
+            return;
+        }
+
+        DiceManager.Instance.RollDice();
+    }
+
+    void OnRerollClick()
+    {
+        this.oxygen -= 1;
+        InterfaceManager.Instance.SetOxygen(this.oxygen);
+        Instantiate(oxygenParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
+
+        DiceManager.Instance.RollDice();
+    }
+
     void OnDieClick(Die die)
     {
         Debug.Log($"GameManager::Die {die.Value} clicked");
+        if (die.IsSelected)
+        {
+            die.SetSelected(false);
+            this.Board.UnselectAllSquares();
+            return;
+        }
 
-        var dice = InterfaceManager.Instance.GetDice();
+        var dice = DiceManager.Instance.GetDice();
         foreach (var d in dice)
         {
             d.SetSelected(false);
@@ -213,7 +258,6 @@ public class GameManager : ManagerSingletonBase<GameManager>
                 return;
             }
 
-            Debug.Log("NoSquareBehind");
             // Can only happen when moving of the top of the board, so activate the first square
             var firstSquare = this.Board.GetSquareAtPosition(0);
 

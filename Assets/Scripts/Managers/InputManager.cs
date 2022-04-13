@@ -10,17 +10,18 @@ public class InputManager : ManagerSingletonBase<InputManager>
     public event Action<Token> TokenClicked;
     public event Action<Square> SquareClicked;
     public event Action<Die> DieClicked;
- 
-    void Start()
-    {
-        
-    }
+
+    public event Action PauseKeyPressed;
+    public event Action MenuKeyPressed;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneLoader.LoadScene(Scene.Menu);
+            if (MenuKeyPressed != null)
+            {
+                MenuKeyPressed();
+            }
             return;
         }
 
@@ -35,6 +36,15 @@ public class InputManager : ManagerSingletonBase<InputManager>
             {
                 return;
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (PauseKeyPressed != null)
+            {
+                PauseKeyPressed();
+            }
+            return;
         }
     }
 

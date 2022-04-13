@@ -40,10 +40,16 @@ public class Square : MonoBehaviour
     {
         var box = this.transform.Find("Box").gameObject.GetComponent<SpriteRenderer>();
         
-
         if (IsSelected)
         {
-            box.color = Color.blue;
+            if (IsMarked)
+            {
+                box.color = Color.red;
+            }
+            else
+            {
+                box.color = Color.green;
+            }
         }
         else
         {
@@ -84,7 +90,7 @@ public class Square : MonoBehaviour
         if (modifier != 0 && !this.IsMarked)
         {
             this.transform.Find(path).gameObject.SetActive(true);
-            
+
             var label = this.transform.Find(path + "/Text").gameObject.GetComponent<TextMesh>();
             label.text = $"-{modifier}";
         }

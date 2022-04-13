@@ -52,10 +52,14 @@ public class CameraManager : MonoBehaviour
 
         if (!dragging)
         {
-var desiredPosition = Target.position + Offset;    
+            var desiredPosition = Target.position + Offset;    
 
-        var smoothedPosition = Vector3.Lerp(camera.transform.position, desiredPosition,  SmoothSpeed);
-        camera.transform.position = smoothedPosition;
+            var smoothedPosition = Vector3.Lerp(camera.transform.position, desiredPosition,  SmoothSpeed);
+            camera.transform.position = smoothedPosition;
+        }
+        else
+        {
+
         }
         
     }
