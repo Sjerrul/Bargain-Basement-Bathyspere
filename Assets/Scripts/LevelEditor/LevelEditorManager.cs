@@ -12,7 +12,7 @@ public class LevelEditorManager : MonoBehaviour
 
     public void Save()
     {
-        string path = Application.dataPath + "/Boards/" + boardName;
+        string path = Application.streamingAssetsPath + "/Boards/" + boardName;
         Debug.Log($"LevelEditorManager::Serializing board");
         BoardData boardData = BoardSerializer.Serialize(this.Board);
 

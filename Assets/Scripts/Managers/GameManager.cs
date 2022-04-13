@@ -26,10 +26,11 @@ public class GameManager : ManagerSingletonBase<GameManager>
     public GameObject oxygenParticleSystem;
     public GameObject stressParticleSystem;
     public GameObject damageParticleSystem;
+
     void Awake()
     {
         Debug.Log("GameManager::Loading level " + this.BoardToLoad);
-        string path = Application.dataPath + "/Boards/" + this.BoardToLoad;
+        string path = Application.streamingAssetsPath + "/Boards/" + this.BoardToLoad;
 
         Debug.Log($"GameManager::Loading {path}");
         BoardData boardData = SaveFileHandler.Load(path);
@@ -48,7 +49,6 @@ public class GameManager : ManagerSingletonBase<GameManager>
         InputManager.Instance.PauseKeyPressed += OnPauseKeyPressed;
         InterfaceManager.Instance.RollDiceClick += OnRollClick;
         InterfaceManager.Instance.RerollDiceClick += OnRerollClick;
-
 
         this.Token.PassSquare += OnTokenPassesSquare;
         this.Token.LandOnSquare += OnTokenLandsOnSquare;

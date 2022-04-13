@@ -69,6 +69,8 @@ public class InputManager : ManagerSingletonBase<InputManager>
                         return true;
                     }
                 }
+
+                Debug.Log("Clicked: " + result.gameObject.name);
             }
         }
 
