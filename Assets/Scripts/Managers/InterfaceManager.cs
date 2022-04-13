@@ -44,5 +44,4 @@ public class InterfaceManager : ManagerSingletonBase<InterfaceManager>
             RerollDiceClick();
         }
     }
-
 }

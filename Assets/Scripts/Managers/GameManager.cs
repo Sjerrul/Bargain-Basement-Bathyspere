@@ -47,8 +47,13 @@ public class GameManager : ManagerSingletonBase<GameManager>
         InputManager.Instance.DieClicked += OnDieClick;
         InputManager.Instance.MenuKeyPressed += OnMenuKeyPressed;
         InputManager.Instance.PauseKeyPressed += OnPauseKeyPressed;
+
         InterfaceManager.Instance.RollDiceClick += OnRollClick;
         InterfaceManager.Instance.RerollDiceClick += OnRerollClick;
+
+        PopupManager.Instance.PopupOxygenClick += OnPopupOxygenClick;
+        PopupManager.Instance.PopupDamageClick += OnPopupDamageClick;
+        PopupManager.Instance.PopupStressClick += OnPopupStressClick;
 
         this.Token.PassSquare += OnTokenPassesSquare;
         this.Token.LandOnSquare += OnTokenLandsOnSquare;
@@ -70,6 +75,32 @@ public class GameManager : ManagerSingletonBase<GameManager>
         InterfaceManager.Instance.SetDamage(this.damage);
     }
 
+    void OnPopupOxygenClick(Square square)
+    {
+        Debug.Log("GameManager::OnPopupOxygenClick");
+        PopupManager.Instance.Hide();
+                Time.timeScale = 1;        
+                Debug.Log(square.name);
+
+    }
+
+    void OnPopupDamageClick(Square square)
+    {
+        Debug.Log("GameManager::OnPopupDamageClick");
+        PopupManager.Instance.Hide();
+                Time.timeScale = 1;        
+                Debug.Log(square.name);
+
+    }
+
+    void OnPopupStressClick(Square square)
+    {
+        Debug.Log("GameManager::OnPopupStressClick");
+        PopupManager.Instance.Hide();
+        Time.timeScale = 1;        
+        Debug.Log(square.name);
+    }
+
     void OnTokenClick(Token token)
     {
         Debug.Log("GameManager::Token Clicked");
@@ -79,6 +110,14 @@ public class GameManager : ManagerSingletonBase<GameManager>
     private void OnTokenPassesSquare(Square square)
     {
         Debug.Log("GameManager::Square Visited: " + square.name);
+        if (square.IsChoice())
+        {
+            Time.timeScale = 0;
+            PopupManager.Instance.Show(square);
+            
+            return;
+        }
+
         if (square.OxygenModifier != 0 && !square.IsMarked)
         {
             this.oxygen -= square.OxygenModifier;
@@ -144,6 +183,7 @@ public class GameManager : ManagerSingletonBase<GameManager>
             this.stress -= squares;
             InterfaceManager.Instance.SetStress(this.stress);
             Instantiate(stressParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
+            passedDepthLine = false;
         }
 
         square.SetMarked(true);

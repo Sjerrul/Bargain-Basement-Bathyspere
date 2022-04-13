@@ -75,6 +75,52 @@ public class Square : MonoBehaviour
         this.IsSelected = isSelected;
     }
 
+    public bool IsChoice()
+    {
+        if (this.StressModifier != 0)
+        {
+            if (this.DamageModifier != 0)
+            {
+                return true;
+            }
+
+            if (this.OxygenModifier != 0)
+            {
+                return true;
+            }
+        }
+
+        if (this.DamageModifier != 0)
+        {
+            if (this.StressModifier != 0)
+            {
+                return true;
+            }
+
+            if (this.OxygenModifier != 0)
+            {
+                return true;
+            }
+        }
+
+
+        if (this.OxygenModifier != 0)
+        {
+            if (this.DamageModifier != 0)
+            {
+                return true;
+            }
+
+            if (this.StressModifier != 0)
+            {
+                return true;
+            }
+        }
+
+
+        return false;
+    }
+
     private void UpdateModifiers()
     {
         UpdateModifier("Modifiers/Stress", this.StressModifier);
