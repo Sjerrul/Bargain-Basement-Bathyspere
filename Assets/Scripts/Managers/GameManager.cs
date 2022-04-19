@@ -49,7 +49,6 @@ public class GameManager : ManagerSingletonBase<GameManager>
         InputManager.Instance.PauseKeyPressed += OnPauseKeyPressed;
 
         InterfaceManager.Instance.RollDiceClick += OnRollClick;
-        InterfaceManager.Instance.RerollDiceClick += OnRerollClick;
 
         PopupManager.Instance.PopupOxygenClick += OnPopupOxygenClick;
         PopupManager.Instance.PopupDamageClick += OnPopupDamageClick;
@@ -73,38 +72,43 @@ public class GameManager : ManagerSingletonBase<GameManager>
         InterfaceManager.Instance.SetOxygen(this.oxygen);
         InterfaceManager.Instance.SetStress(this.stress);
         InterfaceManager.Instance.SetDamage(this.damage);
+
+        DiceManager.Instance.RollDice();
     }
 
     void OnPopupOxygenClick(Square square)
     {
         Debug.Log("GameManager::OnPopupOxygenClick");
         PopupManager.Instance.Hide();
-                Time.timeScale = 1;        
-                Debug.Log(square.name);
-
+        Time.timeScale = 1;        
+        
+        DecrementOxygen(square.OxygenModifier);
+        square.OxygenModifier = 0;
     }
 
     void OnPopupDamageClick(Square square)
     {
         Debug.Log("GameManager::OnPopupDamageClick");
         PopupManager.Instance.Hide();
-                Time.timeScale = 1;        
-                Debug.Log(square.name);
-
+        Time.timeScale = 1;        
+        
+        DecrementDamage(square.DamageModifier);
+        square.DamageModifier = 0;
     }
 
     void OnPopupStressClick(Square square)
     {
         Debug.Log("GameManager::OnPopupStressClick");
         PopupManager.Instance.Hide();
-        Time.timeScale = 1;        
-        Debug.Log(square.name);
+        Time.timeScale = 1;    
+
+        DecrementDamage(square.StressModifier);
+        square.StressModifier = 0;
     }
 
     void OnTokenClick(Token token)
     {
         Debug.Log("GameManager::Token Clicked");
-        Instantiate(stressParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
     }
 
     private void OnTokenPassesSquare(Square square)
@@ -120,23 +124,20 @@ public class GameManager : ManagerSingletonBase<GameManager>
 
         if (square.OxygenModifier != 0 && !square.IsMarked)
         {
-            this.oxygen -= square.OxygenModifier;
-            InterfaceManager.Instance.SetOxygen(this.oxygen);
-            Instantiate(oxygenParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
+            DecrementOxygen( square.OxygenModifier);
+            square.OxygenModifier = 0;
         }
 
         if (square.StressModifier != 0 && !square.IsMarked)
         {
-            this.stress -= square.StressModifier;
-            InterfaceManager.Instance.SetStress(this.stress);
-            Instantiate(stressParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
+            DecrementStress( square.StressModifier);
+            square.StressModifier = 0;
         }
 
         if (square.DamageModifier != 0 && !square.IsMarked)
         {
-            this.damage -= square.DamageModifier;
-            InterfaceManager.Instance.SetDamage(this.damage);
-            Instantiate(damageParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
+            DecrementDamage( square.DamageModifier);
+            square.DamageModifier = 0;
         }
 
         if (square.IsDepthZone)
@@ -144,6 +145,27 @@ public class GameManager : ManagerSingletonBase<GameManager>
             this.passedDepthLine = true;
             this.indexOfDepthLinePassing = this.Board.GetPositionOfSquare(square);
         }
+    }
+
+    private void DecrementOxygen(int amount)
+    {
+        this.oxygen -= amount;
+        InterfaceManager.Instance.SetOxygen(this.oxygen);
+        Instantiate(oxygenParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
+    }
+
+    private void DecrementStress(int amount)
+    {
+        this.stress -= amount;
+        InterfaceManager.Instance.SetStress(this.stress);
+        Instantiate(stressParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
+    }
+
+    private void DecrementDamage(int amount)
+    {
+        this.damage -= amount;
+        InterfaceManager.Instance.SetDamage(this.damage);
+        Instantiate(damageParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
     }
 
     private void OnTokenLandsOnSquare(Square square)
@@ -156,16 +178,12 @@ public class GameManager : ManagerSingletonBase<GameManager>
 
         if (square.IsMarked)
         {
-            this.stress -= square.StressModifier;
-            InterfaceManager.Instance.SetStress(this.stress);
-            Instantiate(stressParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
+            DecrementStress(1);
         }
 
         if (square.IsDepthZone)
         {
-            this.stress -= 1;
-            InterfaceManager.Instance.SetStress(this.stress);
-            Instantiate(stressParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
+            DecrementStress(1);
         }
 
         if (passedDepthLine)
@@ -180,9 +198,7 @@ public class GameManager : ManagerSingletonBase<GameManager>
                 squares = this.indexOfDepthLinePassing - this.tokenPosition;
             }
 
-            this.stress -= squares;
-            InterfaceManager.Instance.SetStress(this.stress);
-            Instantiate(stressParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
+            DecrementStress(squares);
             passedDepthLine = false;
         }
 
@@ -242,20 +258,7 @@ public class GameManager : ManagerSingletonBase<GameManager>
 
     void OnRollClick()
     {
-        if (DiceManager.Instance.AreDiceAvailable())
-        {
-            return;
-        }
-
-        DiceManager.Instance.RollDice();
-    }
-
-    void OnRerollClick()
-    {
-        this.oxygen -= 1;
-        InterfaceManager.Instance.SetOxygen(this.oxygen);
-        Instantiate(oxygenParticleSystem, this.Token.transform.position, this.Token.transform.rotation);
-
+        DecrementOxygen(1);
         DiceManager.Instance.RollDice();
     }
 

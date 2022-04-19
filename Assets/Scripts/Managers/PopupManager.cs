@@ -17,6 +17,21 @@ public class PopupManager : ManagerSingletonBase<PopupManager>
     {
         this.PopupPanel.SetActive(true);
         this.triggeredSquare = square;
+
+        if (this.triggeredSquare.DamageModifier == 0)
+        {
+            PopupPanel.transform.Find("Canvas/Panel/Damage").gameObject.SetActive(false);
+        }
+
+        if (this.triggeredSquare.OxygenModifier == 0)
+        {
+            PopupPanel.transform.Find("Canvas/Panel/Oxygen").gameObject.SetActive(false);
+        }
+
+        if (this.triggeredSquare.StressModifier == 0)
+        {
+            PopupPanel.transform.Find("Canvas/Panel/Stress").gameObject.SetActive(false);
+        }
     }
 
     public void Hide()

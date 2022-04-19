@@ -36,12 +36,4 @@ public class InterfaceManager : ManagerSingletonBase<InterfaceManager>
             RollDiceClick();
         }
     }
-
-    public void RerollDiceButtonClick()
-    {
-        if (RerollDiceClick != null)
-        {
-            RerollDiceClick();
-        }
-    }
 }
